@@ -35,7 +35,6 @@ const RichEditor: React.FC<RichEditorProps> = ({
   const [dragBlockKey, setDragBlockKey] = useState<string | undefined>();
   const currentBlock = getCurrentBlock(editorState);
   const blockType = currentBlock?.getType();
-
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const handleKeyCommand = (
@@ -80,14 +79,17 @@ const RichEditor: React.FC<RichEditorProps> = ({
 
   // handle what happens when return key is pressed
   const handleReturn = (e: any): DraftHandleValue => {
-    if (isOpen) return "handled";
+    if (isOpen) {
+      return "handled"
+    }
+
     if (isSoftNewlineEvent(e)) {
       setEditorState &&
         setEditorState(RichUtils.insertSoftNewline(editorState));
       return "handled";
     }
+    
     if (
-      blockType === "unstyled" ||
       blockType === "unordered-list-item" ||
       blockType === "ordered-list-item"
     ) {
@@ -96,6 +98,7 @@ const RichEditor: React.FC<RichEditorProps> = ({
 
     setEditorState &&
       setEditorState(addNewBlockAt(editorState, currentBlock?.getKey()));
+
     return "handled";
   };
 
@@ -114,7 +117,7 @@ const RichEditor: React.FC<RichEditorProps> = ({
         onChange={onChange}
         handleKeyCommand={handleKeyCommand}
         onTab={onTab}
-        spellCheck={true}
+        spellCheck
         blockRendererFn={myBlockRenderer}
         handleReturn={handleReturn}
         blockStyleFn={myBlockStyleFn}
@@ -132,24 +135,6 @@ const RichEditor: React.FC<RichEditorProps> = ({
 };
 
 const EditorContainer = styled.div`
-  color: black;
-  width: 100%;
-  position: relative;
-  font-size: 16px;
-
-  div[data-editor] {
-    padding: 4px 0px;
-    position: relative;
-  }
-
-  li {
-    position: relative;
-  }
-
-  .public-DraftEditorPlaceholder-root {
-    margin-top: 4px;
-  }
-
   h1 {
     margin-top: 16px;
     margin-bottom: 20px;

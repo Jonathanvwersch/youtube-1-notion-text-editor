@@ -19,7 +19,7 @@ const useKeyDownAndUpListener = (shouldRun: boolean = true, length: number) => {
         event.preventDefault();
       }
     },
-    [activeIndex]
+    [activeIndex, length]
   );
 
   useEffect(() => {

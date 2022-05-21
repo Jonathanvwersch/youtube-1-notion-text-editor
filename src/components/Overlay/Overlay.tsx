@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { CoordsType } from "../../definitions";
 import { useOutsideClickListener } from "../../hooks";
 
-interface OverlayProps {
+type OverlayProps = {
   children: JSX.Element;
   isOpen: boolean;
   handleClose: (args?: any) => void;
@@ -23,12 +23,10 @@ const Overlay: React.FC<OverlayProps> = ({
   modalHeight,
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
-
   useOutsideClickListener(modalRef, handleClose, isOpen);
 
   return createPortal(
     isOpen ? (
-      <OuterContainer>
         <Modal
           ref={modalRef}
           coords={coords}
@@ -37,23 +35,19 @@ const Overlay: React.FC<OverlayProps> = ({
         >
           {children}
         </Modal>
-      </OuterContainer>
     ) : null,
     document.getElementById("modal-overlay")!
   );
 };
 
-const OuterContainer = styled.div`
-  pointer-events: auto;
-  position: relative;
-  z-index: 0;
-`;
+
 
 const Modal = styled.div<{
   coords?: CoordsType;
   modalWidth?: string;
   modalHeight?: string;
 }>`
+  pointer-events: auto;
   top: ${({ coords }) => (coords?.top ? `${coords?.top}px` : "auto")};
   bottom: ${({ coords }) => (coords?.bottom ? `${coords?.bottom}px` : "auto")};
   left: ${({ coords }) => (coords?.left ? `${coords?.left}px` : "auto")};
